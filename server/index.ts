@@ -1,10 +1,13 @@
 require('dotenv').config();
+require('express-async-errors');
 import express from 'express';
 const app = express();
 app.use(express.json());
 
 import podcastsRouter from './routes/podcastsRouter';
 app.use('/api/v1/podcasts', podcastsRouter);
+import authRouter from './routes/authRoutes';
+app.use('/api/v1/auth', authRouter);
 
 const DB_URL = process.env.MONGO_URI || '';
 const PORT = process.env.PORT || 8080;

@@ -1,10 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { UserType } from '../types';
 import isEmail from 'validator/lib/isEmail';
 import isAlpha from 'validator/lib/isAlpha';
 import bcrypt from 'bcryptjs';
 
-const UserSchema = new Schema<UserType>({
+const UserSchema = new Schema({
   user_name: {
     type: String,
     required: [true, 'Please provide a username'],
@@ -12,6 +11,7 @@ const UserSchema = new Schema<UserType>({
   },
   user_email: {
     type: String,
+    unique: true,
     validate: {
       validator: function () {
         isEmail;
@@ -29,17 +29,24 @@ const UserSchema = new Schema<UserType>({
     type: Boolean,
     default: false,
   },
+  user_isVerified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-UserSchema.pre<UserType>('save', async function () {
+UserSchema.pre('save', async function () {
   const salt = await bcrypt.genSalt(10);
   this.user_password = await bcrypt.hash(this.user_password, salt);
 });
 
 UserSchema.methods.passwordCheck = async function (candidatePassword: string) {
-  const isMatch = await bcrypt.compare(candidatePassword, this.user_password);
+  const isMatch: boolean = await bcrypt.compare(
+    candidatePassword,
+    this.user_password
+  );
   return isMatch;
 };
 
-const User = model<UserType>('User', UserSchema);
+const User = model('User', UserSchema);
 export default User;
