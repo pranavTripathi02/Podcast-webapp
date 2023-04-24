@@ -10,28 +10,33 @@ export type PodcastType = {
 };
 
 export interface UserType extends mongoose.Document {
-  user_name: {
-    type: string;
-    required: boolean;
-  };
-  user_email: {
-    type: string;
-    unique: boolean;
-    required: boolean;
-  };
-  user_password: {
-    type: string;
-    // minLength: number;
-    required: boolean;
-  };
-  user_isAdmin: {
-    type: boolean;
-    default: boolean;
-  };
-  user_isVerified: {
-    type: boolean;
-    default: boolean;
-  };
+  user_name: string;
+  user_email: string;
+  user_password: string;
+  user_isAdmin: boolean;
+  user_isVerified: boolean;
+  passwordCheck(str: string): Promise<boolean>;
+  // user_name: {
+  //   type: string;
+  //   required: boolean;
+  // };
+  // user_email: {
+  //   type: string;
+  //   unique: boolean;
+  //   required: boolean;
+  // };
+  // user_password: {
+  //   type: string;
+  //   required: boolean;
+  // };
+  // user_isAdmin: {
+  //   type: boolean;
+  //   default: boolean;
+  // };
+  // user_isVerified: {
+  //   type: boolean;
+  //   default: boolean;
+  // };
 }
 
 export type VerificationTokenType = {

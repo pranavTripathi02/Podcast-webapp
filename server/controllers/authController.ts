@@ -1,3 +1,4 @@
+import { UserType } from '../types';
 import User from '../models/User';
 import { StatusCodes } from 'http-status-codes';
 import sendVerificationEmail from '../utils/sendVerificationEmail';
@@ -6,8 +7,10 @@ import AccessToken from '../models/AccessToken';
 require('dotenv').config();
 import customError from '../error';
 import crypto from 'crypto';
+import createTokenUser from '../utils/createToken';
+import attachCookies from '../utils/attachCookies';
 
-const loginUser = async (req, res) => {
+const loginUser = async (req: any, res: any) => {
   const { user_email, user_password } = req.body;
   if (!user_email || !user_password)
     throw new customError.BadRequestError(
@@ -20,7 +23,7 @@ const loginUser = async (req, res) => {
   if (!user.user_isVerified)
     throw new customError.BadRequestError('User not verified');
 
-  const isPassCorrect = await user.passwordCheck(user_password);
+  const isPassCorrect: boolean = await user.passwordCheck(user_password);
   if (!isPassCorrect)
     throw new customError.UnauthorizedError('Incorrect Password. Try again');
 
@@ -28,7 +31,7 @@ const loginUser = async (req, res) => {
 
   let refreshToken = '';
 
-  const tokenExists = await Token.findOne({ user: user._id });
+  const tokenExists = await AccessToken.findOne({ user: user._id });
   if (tokenExists) {
     const { isValid } = tokenExists;
     if (!isValid)
@@ -43,19 +46,25 @@ const loginUser = async (req, res) => {
   const ip = req.ip;
 
   const userToken = { refreshToken, ip, userAgent, user: user._id };
-  await Token.create(userToken);
+  await AccessToken.create(userToken);
   attachCookies({ res, user: tokenUser, refreshToken });
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
-const registerUser = async (req, res) => {
-  const { user_email, user_name, user_password } = req.body;
+const registerUser = async (req: any, res: any) => {
+  const {
+    user_email,
+    user_name,
+    user_password,
+  }: { user_email: string; user_name: string; user_password: string } =
+    req.body;
   const emailExists = await User.findOne({ user_email });
-  let isAdmin = false;
+  let isAdmin: boolean = false;
   if (emailExists) {
-    //throw err
+    throw new customError.BadRequestError('User already exists');
   }
   const isFirstUser = (await User.countDocuments()) == 0;
+  console.log(isFirstUser);
   if (isFirstUser) {
     if (user_name !== 'admin') {
       //throw err
@@ -73,7 +82,7 @@ const registerUser = async (req, res) => {
     const port = process.env.PORT || 5000;
     const origin = `http://localhost:${port}/api/v1`;
 
-    const verificationToken = crypto.randomBytes(25).toString('hex');
+    const verificationToken: string = crypto.randomBytes(25).toString('hex');
 
     const newToken = await VerificationToken.create({
       user_id: user._id,
@@ -99,7 +108,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-const verifyUser = async (req, res) => {
+const verifyUser = async (req: any, res: any) => {
   const { user_id, token } = req.params;
   const userExists = await User.findOne({ _id: user_id });
   if (!userExists) {
@@ -123,7 +132,7 @@ const verifyUser = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
+const logoutUser = async (req, res) => {
   // console.log(req.user);
   await AccessToken.findOneAndDelete({ user: req.user.user_id });
 
@@ -135,4 +144,4 @@ const logout = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({ msg: 'User logged out!' });
 };
-export { registerUser, loginUser, verifyUser };
+export { registerUser, loginUser, verifyUser, logoutUser };

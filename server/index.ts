@@ -4,6 +4,9 @@ import express from 'express';
 const app = express();
 app.use(express.json());
 
+import cookieParser from 'cookie-parser';
+app.use(cookieParser(process.env.JWT_SECRET));
+
 import podcastsRouter from './routes/podcastsRouter';
 app.use('/api/v1/podcasts', podcastsRouter);
 import authRouter from './routes/authRoutes';
