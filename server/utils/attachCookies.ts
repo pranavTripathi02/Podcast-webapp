@@ -1,7 +1,12 @@
-import { createJWT } from './createVerifyJWT';
+import jwt from 'jsonwebtoken';
+const createJWT = ({ payload }) => {
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  return token;
+};
 
 const attachCookies = ({ res, user, refreshToken }) => {
   const accessTokenJWT = createJWT({ payload: { user } });
+  // console.log(accessTokenJWT);
   const refreshTokenJWT = createJWT({ payload: { user, refreshToken } });
   const day = 1000 * 60 * 60 * 24;
 

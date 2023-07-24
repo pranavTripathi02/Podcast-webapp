@@ -3,12 +3,12 @@ import User from '../models/User';
 import { StatusCodes } from 'http-status-codes';
 import sendVerificationEmail from '../utils/sendVerificationEmail';
 import VerificationToken from '../models/VerificationToken';
-import AccessToken from '../models/AccessToken';
 require('dotenv').config();
 import customError from '../error';
 import crypto from 'crypto';
 import createTokenUser from '../utils/createToken';
 import attachCookies from '../utils/attachCookies';
+import bcrypt from 'bcryptjs';
 
 const loginUser = async (req: any, res: any) => {
   const { user_email, user_password } = req.body;
@@ -17,37 +17,32 @@ const loginUser = async (req: any, res: any) => {
       'Please provide both email and password'
     );
 
-  const user = await User.findOne({ user_email });
+  const user: UserType = await User.findOne({ user_email });
   if (!user) throw new customError.BadRequestError('User does not exist');
 
-  if (!user.user_isVerified)
+  if (!user?.user_isVerified)
     throw new customError.BadRequestError('User not verified');
 
-  const isPassCorrect: boolean = await user.passwordCheck(user_password);
+  const isPassCorrect = await user.passwordCheck(user_password);
+  // console.log(user.user_password, user_password, isPassCorrect);
   if (!isPassCorrect)
     throw new customError.UnauthorizedError('Incorrect Password. Try again');
 
+  console.log(user);
   const tokenUser = createTokenUser(user);
 
-  let refreshToken = '';
+  const refreshToken = crypto.randomBytes(12).toString('hex');
+  // const userAgent = req.headers['user-agent'];
+  // const ip = req.ip;
 
-  const tokenExists = await AccessToken.findOne({ user: user._id });
-  if (tokenExists) {
-    const { isValid } = tokenExists;
-    if (!isValid)
-      throw new customError.UnauthorizedError('Invalid Credentials');
-    refreshToken = tokenExists.refreshToken;
-    attachCookies({ res, user: tokenUser, refreshToken });
-    res.status(StatusCodes.OK).json({ user: tokenUser });
-    return;
-  }
-  refreshToken = crypto.randomBytes(12).toString('hex');
-  const userAgent = req.headers['user-agent'];
-  const ip = req.ip;
-
-  const userToken = { refreshToken, ip, userAgent, user: user._id };
-  await AccessToken.create(userToken);
+  // const userToken = { refreshToken, ip, userAgent, user: user._id };
   attachCookies({ res, user: tokenUser, refreshToken });
+  user.user_refreshToken = refreshToken;
+  // console.log(res);
+  // const accessTokenJWT = res.signedCookies.accessToken;
+  // console.log(accessTokenJWT);
+  await user.save();
+
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
@@ -59,43 +54,34 @@ const registerUser = async (req: any, res: any) => {
   }: { user_email: string; user_name: string; user_password: string } =
     req.body;
   const emailExists = await User.findOne({ user_email });
-  let isAdmin: boolean = false;
   if (emailExists) {
+    sendVerificationEmail(emailExists);
     throw new customError.BadRequestError('User already exists');
   }
   const isFirstUser = (await User.countDocuments()) == 0;
-  console.log(isFirstUser);
+  // console.log(isFirstUser);
+  let roles = {};
+  if (req.body.roles) {
+    roles = req.body.roles;
+  }
   if (isFirstUser) {
-    if (user_name !== 'admin') {
-      //throw err
-    }
-    isAdmin = true;
+    // if (user_name !== 'admin') {
+    //   //throw err
+    // }
+    roles = { Admin: 'admin', ...roles };
   }
   try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(user_password, salt);
+
     const user = await User.create({
       user_email,
       user_name,
-      user_password,
-      user_isAdmin: isAdmin,
+      user_password: hashedPass,
+      user_roles: roles,
     });
 
-    const port = process.env.PORT || 5000;
-    const origin = `http://localhost:${port}/api/v1`;
-
-    const verificationToken: string = crypto.randomBytes(25).toString('hex');
-
-    const newToken = await VerificationToken.create({
-      user_id: user._id,
-      token: verificationToken,
-    });
-
-    await sendVerificationEmail({
-      user_id: user._id.toString(),
-      user_name,
-      user_email,
-      origin,
-      verificationToken,
-    });
+    await sendVerificationEmail(user);
 
     res.status(StatusCodes.CREATED).json({
       msg: `Thanks for registering ${user.user_name}. Please check your email inbox to verify your account`,
@@ -108,19 +94,35 @@ const registerUser = async (req: any, res: any) => {
   }
 };
 
+const resendVerficationToken = async (req, res) => {
+  const { user_email } = req.body;
+  const userExists = await User.findOne({ user_email });
+  if (!userExists || userExists.user_isVerified) {
+    throw new customError.BadRequestError('User does not exist.');
+  }
+  await sendVerificationEmail(userExists);
+  res.status(StatusCodes.OK).json({
+    msg: `Please check your email inbox to verify your account`,
+  });
+};
+
 const verifyUser = async (req: any, res: any) => {
   const { user_id, token } = req.params;
   const userExists = await User.findOne({ _id: user_id });
   if (!userExists) {
-    res.status(StatusCodes.NOT_FOUND).json({ msg: 'Invalid Link' });
+    res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ msg: 'Invalid Link. User does not exist' });
   }
   if (userExists && !userExists.user_isVerified) {
     const tokenExists = await VerificationToken.findOne({ token });
     if (!tokenExists) {
-      res.status(StatusCodes.NOT_FOUND).json({ msg: 'Invalid Link' });
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: 'Invalid Link. Token may be expired' });
     }
     await User.findOneAndUpdate({ _id: user_id }, { user_isVerified: true });
-    await VerificationToken.deleteMany({ user_id });
+    await VerificationToken.findOneAndDelete({ user_id });
     res
       .status(StatusCodes.ACCEPTED)
       .json({ msg: 'Congratulations! Your email address has been verified.' });
@@ -132,9 +134,17 @@ const verifyUser = async (req: any, res: any) => {
   }
 };
 
+// const userLoggedIn = async (req, res) => {
+//   // const { refreshToken, accessToken } = req.signedCookies;
+//   const user = req.user;
+//   if (!user) {
+//     res.sendStatus(StatusCodes.BAD_REQUEST);
+//   }
+//   res.status(StatusCodes.OK).json({ user });
+// };
+
 const logoutUser = async (req, res) => {
-  // console.log(req.user);
-  await AccessToken.findOneAndDelete({ user: req.user.user_id });
+  const { refreshToken } = req.signedCookies;
 
   res.cookie('accessToken', 'logout', {
     expires: new Date(Date.now()),
@@ -142,6 +152,26 @@ const logoutUser = async (req, res) => {
   res.cookie('refreshToken', 'logout', {
     expires: new Date(Date.now()),
   });
+
+  const foundUser = await User.findOne({ user_refreshToken: refreshToken });
+  if (!foundUser) {
+    res.clearCookie('jwt', { httpOnly: true });
+    return res.sendStatus(StatusCodes.OK);
+  }
+  await User.findOneAndUpdate(
+    { user_refreshToken: refreshToken },
+    { user_refreshToken: '' }
+  );
+
+  // console.log(res);
+
   res.status(StatusCodes.OK).json({ msg: 'User logged out!' });
 };
-export { registerUser, loginUser, verifyUser, logoutUser };
+export {
+  registerUser,
+  loginUser,
+  resendVerficationToken,
+  verifyUser,
+  logoutUser,
+  // userLoggedIn,
+};

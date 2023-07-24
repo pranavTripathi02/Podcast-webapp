@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
+enum UserRoles {
+  Admin = 'admin',
+  User = 'user',
+  Editor = 'editor',
+}
+
 export type PodcastType = {
   podcast_name: string;
   podcast_category: string;
@@ -16,6 +22,8 @@ export interface UserType extends mongoose.Document {
   user_isAdmin: boolean;
   user_isVerified: boolean;
   passwordCheck(str: string): Promise<boolean>;
+  user_roles: Array<UserRoles>;
+  user_refreshToken: string;
   // user_name: {
   //   type: string;
   //   required: boolean;
@@ -42,6 +50,7 @@ export interface UserType extends mongoose.Document {
 export type VerificationTokenType = {
   user_id: mongoose.ObjectId;
   token: string;
+  createdAt: Date;
 };
 
 export type AccessTokenType = {
