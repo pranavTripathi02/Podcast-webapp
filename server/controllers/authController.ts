@@ -28,7 +28,7 @@ const loginUser = async (req: any, res: any) => {
   if (!isPassCorrect)
     throw new customError.UnauthorizedError('Incorrect Password. Try again');
 
-  console.log(user);
+  // console.log(user);
   const tokenUser = createTokenUser(user);
 
   const refreshToken = crypto.randomBytes(12).toString('hex');
@@ -36,14 +36,18 @@ const loginUser = async (req: any, res: any) => {
   // const ip = req.ip;
 
   // const userToken = { refreshToken, ip, userAgent, user: user._id };
-  attachCookies({ res, user: tokenUser, refreshToken });
-  user.user_refreshToken = refreshToken;
-  // console.log(res);
+  const { accessTokenJWT, refreshTokenJWT } = attachCookies({
+    res,
+    user: tokenUser,
+    refreshToken,
+  });
+  user.user_refreshToken = refreshTokenJWT;
+  console.log(refreshTokenJWT);
   // const accessTokenJWT = res.signedCookies.accessToken;
   // console.log(accessTokenJWT);
   await user.save();
 
-  res.status(StatusCodes.OK).json({ user: tokenUser });
+  res.status(StatusCodes.OK).json({ user: tokenUser, accessTokenJWT });
 };
 
 const registerUser = async (req: any, res: any) => {
@@ -152,6 +156,8 @@ const logoutUser = async (req, res) => {
   res.cookie('refreshToken', 'logout', {
     expires: new Date(Date.now()),
   });
+
+  console.log(refreshToken);
 
   const foundUser = await User.findOne({ user_refreshToken: refreshToken });
   if (!foundUser) {

@@ -7,7 +7,7 @@ const createJWT = ({ payload }) => {
 const attachCookies = ({ res, user, refreshToken }) => {
   const accessTokenJWT = createJWT({ payload: { user } });
   // console.log(accessTokenJWT);
-  const refreshTokenJWT = createJWT({ payload: { user, refreshToken } });
+  const refreshTokenJWT = createJWT({ payload: { user } });
   const day = 1000 * 60 * 60 * 24;
 
   res
@@ -21,6 +21,7 @@ const attachCookies = ({ res, user, refreshToken }) => {
       signed: true,
       expires: new Date(Date.now() + day * 30),
     });
+  return { accessTokenJWT, refreshTokenJWT };
 };
 
 export default attachCookies;

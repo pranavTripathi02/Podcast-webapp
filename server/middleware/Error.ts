@@ -1,4 +1,4 @@
-const { StatusCodes } = require('http-status-codes');
+// const { StatusCodes } = require('http-status-codes');
 const ErrorHandlerMiddleware = (err: any, _req: any, res: any, next: any) => {
   console.error('from ErrorHandler: ', err);
   let customError = {
@@ -15,7 +15,9 @@ const ErrorHandlerMiddleware = (err: any, _req: any, res: any, next: any) => {
     customError.message = `No item found with id : ${err.value}`;
     customError.statusCode = 404;
   }
-  res.status(customError.statusCode).json({ message: customError.message });
+  return res
+    .status(customError.statusCode)
+    .json({ message: customError.message });
 };
 
-exports = ErrorHandlerMiddleware;
+export default ErrorHandlerMiddleware;
