@@ -57,6 +57,8 @@ const registerUser = async (req: any, res: any) => {
     user_password,
   }: { user_email: string; user_name: string; user_password: string } =
     req.body;
+  console.log(req.body);
+  console.log('from registerController', user_email, user_name, user_password); 
   const emailExists = await User.findOne({ user_email });
   if (emailExists) {
     sendVerificationEmail(emailExists);
