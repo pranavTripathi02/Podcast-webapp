@@ -159,7 +159,8 @@ const logoutUser = async (req, res) => {
     expires: new Date(Date.now()),
   });
 
-  console.log(refreshToken);
+  console.log("Hi from logout controller");
+  // console.log(refreshToken);
 
   const foundUser = await User.findOne({ user_refreshToken: refreshToken });
   if (!foundUser) {
@@ -171,7 +172,7 @@ const logoutUser = async (req, res) => {
     { user_refreshToken: '' }
   );
 
-  // console.log(res);
+  console.log("Hi from logout controller");
 
   res.status(StatusCodes.OK).json({ msg: 'User logged out!' });
 };

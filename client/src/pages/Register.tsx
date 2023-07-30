@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import ErrorAlert from '../components/ErrorAlert';
-import axios from 'axios';
+import axios from '../api/axios';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -11,7 +13,7 @@ export default function Register() {
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [errMsg, setErrMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
@@ -41,7 +43,7 @@ export default function Register() {
     } else {
       try {
         const { data } = await axios.post(
-          'http://localhost:5000/api/v1/auth/register',
+          '/auth/register',
           JSON.stringify({
             user_name: name,
             user_email: email,
@@ -52,7 +54,7 @@ export default function Register() {
             withCredentials: true,
           }
         );
-        console.log(data);
+        // console.log(data);
         setIsPasswordMatch(true);
         setRePassword('');
         setPassword('');
@@ -61,11 +63,15 @@ export default function Register() {
         setErrMsg(data.msg);
         debounceError();
       } catch (err) {
-        setErrMsg(err.response.data.message);
+        handleErrorMsg(err);
         debounceError();
       }
     }
     setIsLoading(false);
+  };
+
+  const handleErrorMsg = (err: any) => {
+    setErrMsg(err?.response.message);
   };
 
   const handleError = () => {
@@ -84,8 +90,8 @@ export default function Register() {
   return (
     <div className='h-screen'>
       <section className='text-center m-auto pt-40'>
-        <h1 className='text-5xl m-7'>Register</h1>
-        <div className='bg-slate-700 rounded-lg w-1/2 m-auto text-2xl flex-col justify-evenly py-20 relative border-2 border-yellow-900'>
+        <h1 className='text-4xl m-7'>Register</h1>
+        <div className='bg-slate-700 rounded-lg w-[36rem] m-auto text-base flex-col justify-evenly py-10 relative border-2 border-yellow-900'>
           <form onSubmit={handleSubmit}>
             <div className='pt-10'>
               {/* <label htmlFor='email'>Email:</label> */}
@@ -143,16 +149,20 @@ export default function Register() {
             </div>
             <button
               className={`bg-sky-600 hover:bg-sky-700 p-4 rounded-2xl ${
-                isLoading ? 'bg-sky-900 hover:bg-sky-900' : ''
+                isLoading ? 'bg-sky-700' : ''
               }`}
               type='submit'
               disabled={isLoading}
               onSubmit={(e) => handleSubmit(e)}
             >
+              <FontAwesomeIcon
+                icon={faCircleNotch}
+                className={`${isLoading ? 'px-2 animate-spin' : 'hidden'}`}
+              />
               {isLoading ? 'Please wait...' : 'Register'}
             </button>
           </form>
-          <div className='absolute inset-x-0 bottom-2 max-w-fit mx-auto text-base'>
+          <div className='absolute inset-x-0 bottom-2 max-w-fit mx-auto text-sm'>
             <p className='text-gray-400'>
               Have an account already?
               <Link

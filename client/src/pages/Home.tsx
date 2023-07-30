@@ -5,7 +5,7 @@ function Home() {
     <div>
       <h1>Home</h1>
       <button>
-        <Link to='podcasts'>Here</Link>
+        <Link to='/podcasts'>Here</Link>
       </button>
     </div>
   );

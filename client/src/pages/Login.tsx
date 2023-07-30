@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from '../api/axios';
 import { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import ErrorAlert from '../components/ErrorAlert';
 
 export default function Login() {
-  const { saveUser } = useAuth();
+  const { setAuth } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
@@ -20,7 +20,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/v1/auth/login',
+        '/auth/login',
         JSON.stringify({ user_email: email, user_password: password }),
         {
           headers: { 'Content-Type': 'application/json' },
@@ -32,15 +32,18 @@ export default function Login() {
       // console.log(accessToken);
       setEmail('');
       setPassword('');
-      saveUser({ user, accessToken });
+      setAuth({ user, accessToken });
       // setErrMsg('Logging In');
       // setMsgType(true);
       navigate(from, { replace: true });
     } catch (err: unknown) {
-      setErrMsg(err?.response.data.message);
-      console.error(err?.response.data.message);
+      handleErrorMsg(err);
+      console.error(err);
       debounceError();
     }
+  };
+  const handleErrorMsg = (err: any) => {
+    setErrMsg(err?.response.message);
   };
 
   const handleError = () => {
@@ -59,8 +62,8 @@ export default function Login() {
   return (
     <div className='h-screen'>
       <section className='text-center m-auto pt-40'>
-        <h1 className='text-5xl m-7'>Sign In</h1>
-        <div className='bg-slate-700 rounded-lg w-1/2 m-auto text-2xl flex-col justify-evenly py-20 relative border-2 border-yellow-900'>
+        <h1 className='text-4xl m-7'>Sign In</h1>
+        <div className='bg-slate-700 rounded-lg w-[36rem] m-auto text-base flex-col justify-evenly py-10 relative border-2 border-yellow-900'>
           <form onSubmit={handleSubmit}>
             <div className='pt-10'>
               {/* <label htmlFor='email'>Email:</label> */}
@@ -95,7 +98,7 @@ export default function Login() {
               Log In
             </button>
           </form>
-          <div className='absolute inset-x-0 bottom-2 max-w-fit mx-auto text-base'>
+          <div className='absolute inset-x-0 bottom-2 max-w-fit mx-auto text-sm'>
             <p className='text-gray-400'>
               Don't have an account?
               <Link

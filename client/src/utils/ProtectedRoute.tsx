@@ -3,10 +3,12 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const ProtectedRoute = ({ allowedRoles }: any) => {
-  const { user } = useAuth();
-  console.log(user);
+  const { auth } = useAuth();
+  // console.log(auth);
   const location = useLocation();
-  return user?.user_roles.find((role: any) => allowedRoles?.includes(role)) ? (
+  return auth?.user.user_roles.find((role: any) =>
+    allowedRoles?.includes(role)
+  ) ? (
     <Outlet />
   ) : (
     <Navigate to='/login' state={{ from: location }} replace />
