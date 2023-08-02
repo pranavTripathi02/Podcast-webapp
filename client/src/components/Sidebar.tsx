@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Sidebar({ sidebarStatus }: { sidebarStatus: boolean }) {
+export default function Sidebar({
+  sidebarStatus,
+  setSidebarStatus,
+}: {
+  sidebarStatus: boolean;
+  setSidebarStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   // const [classes, setClasses] = useState('');
   // useEffect(() => {
   //   setClasses(

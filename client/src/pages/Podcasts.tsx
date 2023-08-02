@@ -14,7 +14,7 @@ export default function Podcasts({
 }) {
   const { podcasts } = usePodcasts();
   const podcastBanner = useRef<null | HTMLHeadingElement>(null);
-  console.log('hi', podcastCategory);
+  // console.log('hi', podcastCategory);
   // const podcastList = [];
   // const [podcastList, setPodcastList] = useState([]);
   // const podcastList = podcasts;
@@ -44,7 +44,7 @@ export default function Podcasts({
     // podcastBanner.current.scrollLeft
     // mainDiv.scrollLeft += 10;
     const sliderTimer = setInterval(() => {
-      podcastBanner.current.scrollLeft += step;
+      if (podcastBanner.current) podcastBanner.current.scrollLeft += step;
       scrollAmount += Math.abs(step);
       if (scrollAmount >= 350) clearInterval(sliderTimer);
     }, 15);

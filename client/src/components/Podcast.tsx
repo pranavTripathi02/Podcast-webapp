@@ -18,7 +18,7 @@ export default function Podcast({ podcast }: { podcast: any }) {
   } = podcast;
   // console.log(artistName, id, name, artworkUrl100, genres, url);
   return (
-    <div className='podcast-card overflow-clip hover:overflow-visible w-[100px] h-[150px]'>
+    <div className='podcast-card w-[100px] overflow-clip h-[170px]'>
       <img
         className='m-auto rounded-xl'
         src={artworkUrl100}

@@ -1,12 +1,12 @@
 // import React, { useState } from 'react';
-import { CategoryType, PodcastType } from '../Types';
+import { CategoryType } from '../Types';
 import usePodcasts from '../hooks/usePodcasts';
 import { Link } from 'react-router-dom';
 
 export default function Categories() {
   // const [podcastList, setPodcastList] = useState<Array<PodcastType>>([]);
   const { podcastCategories } = usePodcasts();
-  console.log(podcastCategories);
+  // console.log(podcastCategories);
   // const podcastCategory =
   // if (podcastCategory) {
   //   const tempPodcastList = podcasts.filter(
@@ -32,15 +32,20 @@ export default function Categories() {
   // ) : (
   return (
     <>
-      <div>
+      <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-10'>
         {podcastCategories.map((item: CategoryType, index: number) => {
           // console.log(item);
           return (
-            <Link to={`./${item.genreId}`} key={index}>
-              <div>
-                <h2>{item.name}</h2>
-              </div>
+            // <div
+            // >
+            <Link
+              className='mx-5 bg-slate-500 hover:bg-slate-600 p-5 rounded-xl'
+              key={index}
+              to={`./${item.genreId}`}
+            >
+              <h2>{item.name}</h2>
             </Link>
+            // </div>
           );
         })}
       </div>
