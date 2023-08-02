@@ -16,7 +16,7 @@ export default function Navbar({
   // const { auth } = useAuth();
   // console.log(auth?.user);
   return (
-    <nav className='sticky top-0 h-12 bg-stone-600 flex justify-between p-2'>
+    <nav className='sticky top-0 h-12 bg-stone-600 flex justify-between p-2 z-50'>
       <div className='flex justify-between w-20'>
         <FontAwesomeIcon
           className=''

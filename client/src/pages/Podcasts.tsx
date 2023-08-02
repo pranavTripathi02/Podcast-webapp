@@ -1,11 +1,10 @@
 import usePodcasts from '../hooks/usePodcasts';
 import Podcast from '../components/Podcast';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowCircleLeft,
   faArrowCircleRight,
-  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function Podcasts({
@@ -14,7 +13,8 @@ export default function Podcasts({
   podcastCategory: string;
 }) {
   const { podcasts } = usePodcasts();
-  const podcastBanner = useRef(null);
+  const podcastBanner = useRef<null | HTMLHeadingElement>(null);
+  console.log('hi', podcastCategory);
   // const podcastList = [];
   // const [podcastList, setPodcastList] = useState([]);
   // const podcastList = podcasts;
@@ -46,7 +46,7 @@ export default function Podcasts({
     const sliderTimer = setInterval(() => {
       podcastBanner.current.scrollLeft += step;
       scrollAmount += Math.abs(step);
-      if (scrollAmount >= 150) clearInterval(sliderTimer);
+      if (scrollAmount >= 350) clearInterval(sliderTimer);
     }, 15);
   };
   // for (let i = 0; i < podcasts.length; i++) {
@@ -58,7 +58,7 @@ export default function Podcasts({
   // item.genres.includes( name: { podcastCategory } )
   // console.log(podcastList);
   return (
-    <div className='my-2 flex items-center relative'>
+    <div className='flex items-center mt-2 relative'>
       <button
         onClick={() => {
           handleBtnClick('left');
