@@ -14,14 +14,16 @@ export default function UiRouter() {
         setSidebarStatus={setIsSidebarOpen}
       />
       <Sidebar sidebarStatus={isSidebarOpen} />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route element={<ProtectedRoute allowedRoles={['user']} />}>
-          <Route path='/podcasts' element={<Podcasts />} />
-        </Route>
-        {/* <Route path='/' element={< />} />
+      <section className='sm:max-w-lg md:max-w-lg lg:max-w-3xl m-auto w-lg'>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          {/* <Route element={<ProtectedRoute allowedRoles={['user']} />}> */}
+          {/* <Route path='/podcasts' element={<Podcasts />} /> */}
+          {/* </Route> */}
+          {/* <Route path='/' element={< />} />
           <Route path='/' element={<temp />} /> */}
-      </Routes>
+        </Routes>
+      </section>
     </>
   );
 }

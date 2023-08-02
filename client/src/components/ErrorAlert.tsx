@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 export default function ErrorAlert({ message }: { message: string }) {
   // const [showMsg, setShowMsg] = useState(false);
