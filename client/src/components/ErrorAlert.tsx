@@ -3,7 +3,7 @@
 export default function ErrorAlert({ message }: { message: string }) {
   // const [showMsg, setShowMsg] = useState(false);
   // const [timeoutId, setTimeoutId] = useState(0);
-  console.log('from ErrAlert', message);
+  //console.log('from ErrAlert', message);
 
   // useEffect(() => {
   // setTimeoutId(

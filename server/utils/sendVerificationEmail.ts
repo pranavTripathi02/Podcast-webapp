@@ -28,7 +28,7 @@ const sendVerificationEmail = async (user: UserType) => {
 
   const url = `${origin}/auth/verify/${user._id.toString()}/${verificationToken}`;
   const message = verificationEmail({ user_name: user.user_name, url });
-  console.log(url, message);
+  //console.log(url, message);
   return sendEmail({
     to: user.user_email,
     subject: 'Account Verification',

@@ -10,7 +10,7 @@ export default function PopUpMessage({ message: msg }) {
   }, [msg]);
   // const handleError = () => {
   // setShowMsg(true);
-  // console.log('hi');
+  // //console.log('hi');
   // if (showMsg) clearTimeout(timeoutId);
   setTimeout(() => {
     setShowMsg(false);

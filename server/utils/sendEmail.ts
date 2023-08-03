@@ -13,7 +13,7 @@ const sendEmail = async ({
 }) => {
   // let testAccount = await nodemailer.createTestAccount();
 
-  console.log(nodemailerConfig);
+  //console.log(nodemailerConfig);
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
   return transporter.sendMail({

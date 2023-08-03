@@ -3,7 +3,7 @@ import User from '../models/User';
 
 const getAllUsers = async (req, res) => {
   const user = req.user;
-  console.log(user.user);
+  //console.log(user.user);
   if (!user) res.sendStatus(StatusCodes.UNAUTHORIZED);
   if (!user?.user.user_roles.Admin) res.sendStatus(StatusCodes.FORBIDDEN);
   const allUsers = await User.find({});
@@ -12,11 +12,11 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const user = req.user;
-  console.log('HI');
+  //console.log('HI');
   if (!user) res.sendStatus(StatusCodes.UNAUTHORIZED);
   if (!user?.user.user_roles.Admin) res.sendStatus(StatusCodes.FORBIDDEN);
   const { user_id } = req.params;
-  console.log(user, user_id);
+  //console.log(user, user_id);
   if (!user_id) res.sendStatus(StatusCodes.NOT_FOUND);
   await User.findByIdAndDelete({ _id: user_id });
   res.sendStatus(StatusCodes.OK);

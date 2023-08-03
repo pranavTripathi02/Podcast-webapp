@@ -15,7 +15,7 @@ export default function Sidebar({
   //       ? 'translate-x-0 duration-200 ease-linear transition fixed border-2 w-40'
   //       : 'translate-x-[-20rem] duration-200 ease-linear transition'
   //   );
-  //   console.log(sidebarStatus);
+  //   //console.log(sidebarStatus);
   // }, [sidebarStatus]);
   return (
     <nav

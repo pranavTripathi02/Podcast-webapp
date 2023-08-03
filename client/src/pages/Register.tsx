@@ -54,7 +54,7 @@ export default function Register() {
             withCredentials: true,
           }
         );
-        // console.log(data);
+        // //console.log(data);
         setIsPasswordMatch(true);
         setRePassword('');
         setPassword('');

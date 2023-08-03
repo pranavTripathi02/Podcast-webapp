@@ -6,7 +6,7 @@ const createJWT = ({ payload }) => {
 
 const attachCookies = ({ res, user, refreshToken }) => {
   const accessTokenJWT = createJWT({ payload: { user } });
-  // console.log(accessTokenJWT);
+  // //console.log(accessTokenJWT);
   const refreshTokenJWT = createJWT({ payload: { user } });
   const day = 1000 * 60 * 60 * 24;
 

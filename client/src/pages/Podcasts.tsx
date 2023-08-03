@@ -14,32 +14,32 @@ export default function Podcasts({
 }) {
   const { podcasts } = usePodcasts();
   const podcastBanner = useRef<null | HTMLHeadingElement>(null);
-  // console.log('hi', podcastCategory);
+  // //console.log('hi', podcastCategory);
   // const podcastList = [];
   // const [podcastList, setPodcastList] = useState([]);
   // const podcastList = podcasts;
   const podcastList = podcasts.filter(
     (item1: any) =>
-      // console.log(Object.entries(item1.genres));
+      // //console.log(Object.entries(item1.genres));
       // Object.fromEntries()
       // if (
       // item1.genres.filter((item2) => {
       //   if (item2.name === podcastCategory) {
-      // console.log(item2.name, podcastCategory);
+      // //console.log(item2.name, podcastCategory);
       // return true;
       //   }
       // })
       item1.genres.some((item2: any) => item2.name === podcastCategory)
     // )
-    //   // console.log('hi');
+    //   // //console.log('hi');
     //   return item1;
   );
   const handleBtnClick = (dir: string) => {
-    // console.log('here');
+    // //console.log('here');
     const step = dir === 'left' ? -30 : 30;
     let scrollAmount = 0;
     // const mainDiv = document.getElementById('podcast-bar');
-    // console.log(podcastBanner);
+    // //console.log(podcastBanner);
     // podcastBanner.current.scrollLeft += scrollAmount;
     // podcastBanner.current.scrollLeft
     // mainDiv.scrollLeft += 10;
@@ -56,7 +56,7 @@ export default function Podcasts({
   // podcastList.push(podcasts[i].genre.filter((item: any) =>)
   // }
   // item.genres.includes( name: { podcastCategory } )
-  // console.log(podcastList);
+  // //console.log(podcastList);
   return (
     <div className='flex items-center mt-2 relative'>
       <button

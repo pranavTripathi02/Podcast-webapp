@@ -14,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-  // console.log(from, location);
+  // //console.log(from, location);
   // const [email, setEmail] = useState("")
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ export default function Login() {
       );
       const user = data?.user;
       const accessToken = data?.accessToken;
-      // console.log(accessToken);
+      // //console.log(accessToken);
       setEmail('');
       setPassword('');
       setAuth({ user, accessToken });

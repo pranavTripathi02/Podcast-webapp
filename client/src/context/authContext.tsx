@@ -25,7 +25,7 @@ const AuthProvider = ({ children }: Props) => {
   //   setUser(newUser);
   // };
   // const fetchCurrUser = async () => {
-  //   // console.log('fetching');
+  //   // //console.log('fetching');
   //   try {
   //     const data: any = await axios.get(
   //       'http://localhost:5000/api/v1/users/me',
@@ -36,7 +36,7 @@ const AuthProvider = ({ children }: Props) => {
   //     // const data: any = await fetch(
   //     //   'http://localhost:5000/api/v1/auth/me'
   //     // ).then((res) => res.json());
-  //     console.log(data);
+  //     //console.log(data);
   //     // saveUser(data.user);
   //   } catch {
   //     console.error('error');
@@ -47,7 +47,7 @@ const AuthProvider = ({ children }: Props) => {
   // useEffect(() => {
   //   fetchCurrUser();
   // }, []);
-  // console.log(user);
+  // //console.log(user);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

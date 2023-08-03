@@ -9,7 +9,7 @@ export const verifyJWT = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) return res.sendStatus(StatusCodes.FORBIDDEN);
     req.user = decoded;
-    // console.log(req.user, decoded);
+    // //console.log(req.user, decoded);
     next();
   });
 };

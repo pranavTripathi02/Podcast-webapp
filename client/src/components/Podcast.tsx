@@ -16,7 +16,7 @@ export default function Podcast({ podcast }: { podcast: any }) {
     genres: Array<{ genreId: string; name: string }>;
     url: string;
   } = podcast;
-  // console.log(artistName, id, name, artworkUrl100, genres, url);
+  // //console.log(artistName, id, name, artworkUrl100, genres, url);
   return (
     <div className='podcast-card w-[100px] overflow-clip h-[170px]'>
       <img

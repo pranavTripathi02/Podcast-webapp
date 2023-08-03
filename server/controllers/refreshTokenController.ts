@@ -8,18 +8,18 @@ const handleRefreshToken = async (req, res) => {
   if (!cookies?.accessToken) return res.sendStatus(StatusCodes.UNAUTHORIZED);
   const { refreshToken } = cookies;
 
-  console.log('cookies');
-  console.log(refreshToken);
-  console.log(cookies);
+  //console.log('cookies');
+  //console.log(refreshToken);
+  //console.log(cookies);
   const foundUser = await User.findOne({ user_refreshToken: refreshToken });
-  console.log('foundUser', foundUser);
+  //console.log('foundUser', foundUser);
   if (!foundUser) return res.sendStatus(StatusCodes.FORBIDDEN);
 
   jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
     if (err || foundUser.user_email !== decoded.user.user_email)
       return res.sendStatus(StatusCodes.FORBIDDEN);
 
-    console.log('decoded', decoded);
+    //console.log('decoded', decoded);
     const accessToken = jwt.sign(
       { user: decoded.user },
       process.env.JWT_SECRET,

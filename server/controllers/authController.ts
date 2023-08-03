@@ -24,11 +24,11 @@ const loginUser = async (req: any, res: any) => {
     throw new customError.BadRequestError('User not verified');
 
   const isPassCorrect = await user.passwordCheck(user_password);
-  // console.log(user.user_password, user_password, isPassCorrect);
+  // //console.log(user.user_password, user_password, isPassCorrect);
   if (!isPassCorrect)
     throw new customError.UnauthorizedError('Incorrect Password. Try again');
 
-  // console.log(user);
+  // //console.log(user);
   const tokenUser = createTokenUser(user);
 
   const refreshToken = crypto.randomBytes(12).toString('hex');
@@ -42,9 +42,9 @@ const loginUser = async (req: any, res: any) => {
     refreshToken,
   });
   user.user_refreshToken = refreshTokenJWT;
-  console.log(refreshTokenJWT);
+  //console.log(refreshTokenJWT);
   // const accessTokenJWT = res.signedCookies.accessToken;
-  // console.log(accessTokenJWT);
+  // //console.log(accessTokenJWT);
   await user.save();
 
   res.status(StatusCodes.OK).json({ user: tokenUser, accessTokenJWT });
@@ -57,15 +57,15 @@ const registerUser = async (req: any, res: any) => {
     user_password,
   }: { user_email: string; user_name: string; user_password: string } =
     req.body;
-  console.log(req.body);
-  console.log('from registerController', user_email, user_name, user_password); 
+  //console.log(req.body);
+  //console.log('from registerController', user_email, user_name, user_password);
   const emailExists = await User.findOne({ user_email });
   if (emailExists) {
     sendVerificationEmail(emailExists);
     throw new customError.BadRequestError('User already exists');
   }
   const isFirstUser = (await User.countDocuments()) == 0;
-  // console.log(isFirstUser);
+  // //console.log(isFirstUser);
   let roles = {};
   if (req.body.roles) {
     roles = req.body.roles;
@@ -159,8 +159,8 @@ const logoutUser = async (req, res) => {
     expires: new Date(Date.now()),
   });
 
-  console.log("Hi from logout controller");
-  // console.log(refreshToken);
+  //console.log("Hi from logout controller");
+  // //console.log(refreshToken);
 
   const foundUser = await User.findOne({ user_refreshToken: refreshToken });
   if (!foundUser) {
@@ -172,7 +172,7 @@ const logoutUser = async (req, res) => {
     { user_refreshToken: '' }
   );
 
-  console.log("Hi from logout controller");
+  //console.log("Hi from logout controller");
 
   res.status(StatusCodes.OK).json({ msg: 'User logged out!' });
 };

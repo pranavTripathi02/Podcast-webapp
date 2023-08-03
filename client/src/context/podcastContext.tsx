@@ -15,7 +15,7 @@ const PodcastProvider = ({ children }: { children: ReactNode }) => {
     // const cats = [];
     // for (let i = 0; i < results.length; i++) {
     //   for (let j = 0; j < results[i].genres?.length; j++) {
-    //     // console.log(results[i].genres[j].name);
+    //     // //console.log(results[i].genres[j].name);
     //     cats.push(results[i].genres[j]);
     //   }
     // }
@@ -32,12 +32,12 @@ const PodcastProvider = ({ children }: { children: ReactNode }) => {
         if (j <= -1) categories.push(item);
       });
       // for (let j = 0; j < results[i].genres?.length; j++) {
-      //   // console.log(results[i].genres[j].name);
+      //   // //console.log(results[i].genres[j].name);
       //   results
       // }
     }
     setPodcastCategories(categories);
-    // console.log(categories);
+    // //console.log(categories);
     // results.filter((item)=>{
     //   const i = categories.findIndex((x)=>x.name == item.name && x.genreId==item.genres.gen)
     // })
@@ -50,7 +50,7 @@ const PodcastProvider = ({ children }: { children: ReactNode }) => {
     //       .map((item) => item)
     //   ),
     // ];
-    // console.log(cats, categories);
+    // //console.log(cats, categories);
     // setPodcastCategories(categories);
   };
   // const

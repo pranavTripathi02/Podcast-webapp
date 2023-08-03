@@ -11,7 +11,7 @@ const RedirectComponent = () => {
     const interval = setInterval(() => {
       setCount((currentCount) => currentCount - 1);
     }, 1000);
-    console.log('red in', count);
+    //console.log('red in', count);
     count === 0 &&
       navigate('/login', { state: { from: location }, replace: true });
     return () => clearInterval(interval);
