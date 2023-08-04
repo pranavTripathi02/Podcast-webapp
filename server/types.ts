@@ -7,12 +7,18 @@ enum UserRoles {
 }
 
 export type PodcastType = {
-  podcast_name: string;
-  podcast_category: string;
-  podcast_speaker?: string;
-  podcast_isVideo: boolean;
-  podcast_description: string;
-  podcast_url: string;
+  artistName: string;
+  id: string;
+  name: string;
+  artworkUrl100: string;
+  url: string;
+  genres: [
+    {
+      genreId: String;
+      name: String;
+      url: String;
+    }
+  ];
 };
 
 export interface UserType extends mongoose.Document {

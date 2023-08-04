@@ -5,6 +5,7 @@ import { CategoryType } from '../Types';
 import usePodcasts from '../hooks/usePodcasts';
 function Home() {
   const { podcastCategories } = usePodcasts();
+  // console.log(podcastCategories);
   return (
     <div className=''>
       <h2 className='text-lg my-2'>Explore Podcasts</h2>

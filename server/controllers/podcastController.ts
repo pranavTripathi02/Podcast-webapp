@@ -1,10 +1,11 @@
 import { PodcastType } from '../types';
-import Podcast from '../models/Podcast';
+import Podcasts from '../models/Podcast';
 import { StatusCodes } from 'http-status-codes';
 
 const getAllPodcasts = async (_req: any, res: any) => {
-  const Podcasts: PodcastType[] = await Podcast.find();
-  res.status(StatusCodes.OK).json({ Podcasts });
+  const podcasts: PodcastType[] = await Podcasts.find();
+  // console.log(podcasts, 'here');
+  res.status(StatusCodes.OK).json({ podcasts });
 };
 
 export { getAllPodcasts };

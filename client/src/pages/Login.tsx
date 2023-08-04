@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import ErrorAlert from '../components/ErrorAlert';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login() {
   const { setAuth } = useAuth();
@@ -10,6 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [showMsg, setShowMsg] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,6 +21,7 @@ export default function Login() {
   // const [email, setEmail] = useState("")
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const { data } = await axios.post(
         '/auth/login',
@@ -38,12 +42,13 @@ export default function Login() {
       navigate(from, { replace: true });
     } catch (err: unknown) {
       handleErrorMsg(err);
-      console.error(err);
       debounceError();
     }
+    setIsLoading(false);
   };
   const handleErrorMsg = (err: any) => {
-    setErrMsg(err?.response.message);
+    // console.error(err);
+    setErrMsg(err?.response.data.message);
   };
 
   const handleError = () => {
@@ -92,10 +97,18 @@ export default function Login() {
               />
             </div>
             <button
-              className='bg-sky-600 hover:bg-sky-700 p-4 rounded-2xl'
+              className={`bg-sky-600 hover:bg-sky-700 p-4 rounded-2xl ${
+                isLoading ? 'bg-sky-700' : ''
+              }`}
               type='submit'
+              disabled={isLoading}
+              onSubmit={(e) => handleSubmit(e)}
             >
-              Log In
+              <FontAwesomeIcon
+                icon={faCircleNotch}
+                className={`${isLoading ? 'px-2 animate-spin' : 'hidden'}`}
+              />
+              {isLoading ? 'Please wait...' : 'Log In'}
             </button>
           </form>
           <div className='absolute inset-x-0 bottom-2 max-w-fit mx-auto text-sm'>

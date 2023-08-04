@@ -1,21 +1,4 @@
-{
-    "feed": {
-        "title": "Top Shows",
-        "id": "https://rss.applemarketingtools.com/api/v2/us/podcasts/top/100/podcasts.json",
-        "author": {
-            "name": "Apple",
-            "url": "https://www.apple.com/"
-        },
-        "links": [
-            {
-                "self": "https://rss.applemarketingtools.com/api/v2/us/podcasts/top/100/podcasts.json"
-            }
-        ],
-        "copyright": "Copyright \u00a9 2023 Apple Inc. All rights reserved.",
-        "country": "us",
-        "icon": "https://www.apple.com/favicon.ico",
-        "updated": "Wed, 2 Aug 2023 06:38:34 +0000",
-        "results": [
+[
             {
                 "artistName": "Serial Productions & The New York Times",
                 "id": "1691599042",
@@ -1822,5 +1805,3 @@
                 "url": "https://podcasts.apple.com/us/podcast/the-rachel-maddow-show/id294055449"
             }
         ]
-    }
-}

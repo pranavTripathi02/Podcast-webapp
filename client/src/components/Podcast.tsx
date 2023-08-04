@@ -1,20 +1,13 @@
-import React from 'react';
 
 export default function Podcast({ podcast }: { podcast: any }) {
   const {
     artistName,
-    id,
     name,
     artworkUrl100,
-    genres,
-    url,
   }: {
     artistName: string;
-    id: string;
     name: string;
     artworkUrl100: string;
-    genres: Array<{ genreId: string; name: string }>;
-    url: string;
   } = podcast;
   // //console.log(artistName, id, name, artworkUrl100, genres, url);
   return (

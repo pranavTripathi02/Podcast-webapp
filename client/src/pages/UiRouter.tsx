@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProtectedRoute from '../utils/ProtectedRoute';
 import { useState } from 'react';
-import { Home, Podcasts } from '../pages';
+import { Home} from '../pages';
 import Categories from './Categories';
 import PodcastCategory from './PodcastCategory';
 import Subscriptions from './Subscriptions';
@@ -18,7 +18,6 @@ export default function UiRouter() {
       />
       <Sidebar
         sidebarStatus={isSidebarOpen}
-        setSidebarStatus={setIsSidebarOpen}
       />
       <section className='sm:max-w-lg md:max-w-lg lg:max-w-3xl m-auto w-lg'>
         <Routes>

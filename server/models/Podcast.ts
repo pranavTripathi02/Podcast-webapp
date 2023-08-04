@@ -3,30 +3,30 @@ import { PodcastType } from '../types';
 
 const PodcastSchema = new Schema<PodcastType>(
   {
-    podcast_name: {
+    artistName: {
       type: String,
       required: true,
     },
-    podcast_category: {
+    id: {
       type: String,
       required: true,
     },
-    podcast_isVideo: {
-      type: Boolean,
-      required: true,
-    },
-    podcast_description: {
-      type: String,
-      minLength: 15,
-    },
-    podcast_speaker: String,
-    podcast_url: {
+    name: {
       type: String,
       required: true,
     },
+    artworkUrl100: String,
+    url: String,
+    genres: [
+      {
+        genreId: String,
+        name: String,
+        url: String,
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const Podcast = model<PodcastType>('Podcast', PodcastSchema);
+const Podcast = model<PodcastType>('Podcasts', PodcastSchema);
 export default Podcast;

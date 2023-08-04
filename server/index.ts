@@ -1,11 +1,12 @@
 require('dotenv').config();
 require('express-async-errors');
 const cors = require('cors');
-import express from 'express';
+const express = require('express')
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+import corsOptions from './config/corsOptions';
+app.use(cors(corsOptions));
 // app.use(Error)
 
 import cookieParser from 'cookie-parser';

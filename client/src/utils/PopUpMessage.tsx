@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ErrorAlert from '../components/ErrorAlert';
 
-export default function PopUpMessage({ message: msg }) {
+export default function PopUpMessage({ message: msg }:{message:string}) {
   const [showMsg, setShowMsg] = useState(false);
   // const [timeoutId, setTimeoutId] = useState(0);
   // const msg = props?.msg;
