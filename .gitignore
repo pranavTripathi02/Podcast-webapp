@@ -4,3 +4,5 @@ typings/
 .npm
 test.ts
 rest.http
+dist
+
