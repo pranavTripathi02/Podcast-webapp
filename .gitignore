@@ -5,4 +5,5 @@ typings/
 test.ts
 rest.http
 dist
+.git
 
