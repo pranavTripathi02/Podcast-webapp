@@ -30,6 +30,7 @@ export interface UserType extends mongoose.Document {
   passwordCheck(str: string): Promise<boolean>;
   user_roles: Array<UserRoles>;
   user_refreshToken: string;
+  user_subscriptions: Array<mongoose.Types.ObjectId>;
   // user_name: {
   //   type: string;
   //   required: boolean;

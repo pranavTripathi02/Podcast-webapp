@@ -38,7 +38,10 @@ const UserSchema = new Schema<UserType>({
     type: Boolean,
     default: false,
   },
-  user_refreshToken: String,
+  user_subscriptions: {
+  type: [Schema.Types.ObjectId],
+  ref: 'Podcast',
+  },
 });
 
 // UserSchema.pre('save', async function () {

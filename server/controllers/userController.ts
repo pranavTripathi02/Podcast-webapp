@@ -22,6 +22,12 @@ const deleteUser = async (req, res) => {
   res.sendStatus(StatusCodes.OK);
 };
 
+// const podcastSubscribe = async (req, res) => {
+//     const podId = req.podId;
+//     if(!podId) res.sendStatus(StatusCodes.BAD_REQUEST);
+//     await User
+// }
+
 const userLoggedIn = async (req, res) => {
   // const { refreshToken, accessToken } = req.signedCookies;
   const user = req.user;
