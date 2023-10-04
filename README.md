@@ -8,7 +8,7 @@ Check the application here: https://podcasts-frontend.onrender.com/
 ![Login Page](./scrs/login.png)
 
 ### Podcasts by Category
-![Categories](./scrs/podcastcat.png)
+![Categories](./scrs/podbycat.png)
 
 ### Modal
 ![Modal](./scrs/modal.png)
