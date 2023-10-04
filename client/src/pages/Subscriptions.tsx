@@ -1,4 +1,4 @@
 
 export default function Subscriptions() {
-  return <div>Subscriptions</div>;
+    return <h2 className='my-2'>Subscriptions</h2>;
 }

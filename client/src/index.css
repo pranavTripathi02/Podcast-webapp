@@ -1,19 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:700|Outfit:400');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+    /* color-scheme: light dark; */
+    /* color: rgba(255, 255, 255, 0.87); */
+    /* background-color: #242424; */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+
+
+    --text: #dedddd;
+    --background: #000000;
+    --primary: #174764;
+    --secondary: #091e2a;
+    --accent: #2f95d0;
+
+    /* --text: #e6d8fd; */
+    /* --background: #0f0227; */
+    /* --primary: #803cf6; */
+    /* --secondary: #0a0118; */
+    /* --accent: #570adb; */
 }
+
+body{
+    background: var(--background);
+    color: var(--text);
+}
+
+body {
+  font-family: 'Outfit';
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto';
+  font-weight: 700;
+}
+
+html {font-size: 100%;} /* 16px */
+
+h1 {font-size: 4.210rem; /* 67.36px */}
+
+h2 {font-size: 3.158rem; /* 50.56px */}
+
+h3 {font-size: 2.369rem; /* 37.92px */}
+
+h4 {font-size: 1.777rem; /* 28.48px */}
+
+h5 {font-size: 1.333rem; /* 21.28px */}
+
+small {font-size: 0.750rem; /* 12px */}
