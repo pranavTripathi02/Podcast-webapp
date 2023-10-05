@@ -1,4 +1,5 @@
-Check the application here: https://podcasts-frontend.onrender.com/
+# Check the application here (might take a few seconds for backend to start up): 
+https://podcasts-frontend.onrender.com/
 
 ## Screenshots
 ### Homepage
